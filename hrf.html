@@ -1,0 +1,151 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Hotel Registration Form</title>
+    <style>
+        tr {
+            background-color: rgb(243, 238, 241);
+            color: rgb(0, 0, 0);
+            text-align: center;
+        }
+        dt {
+            background-color: deepskyblue;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+    <script>
+        function calculateTotal() {
+            let roomCost = 0;
+            let eCost = 0;
+            let roomType = "";
+            let eNames = [];
+
+            if (document.getElementById("deluxeRoom").checked) {
+                roomCost = 2500;
+                roomType = "Deluxe Room";
+            }
+            if (document.getElementById("suiteRoom").checked) {
+                roomCost = 4000;
+                roomType = "Suite Room";
+            }
+
+            if (document.getElementById("lockerRoom").checked) {
+                eCost += 400;
+                eNames.push("Locker Room");
+            }
+            if (document.getElementById("acRoom").checked) {
+                eCost += 500;
+                eNames.push("A/C Room");
+            }
+
+            const days = parseInt(document.getElementById("txtDays").value || 0);
+            const adv = parseFloat(document.getElementById("txtNumber").value || 0);
+            const total = ((roomCost + eCost) * days) - adv;
+
+            // Set values into hidden inputs
+            document.getElementById("room_type").value = roomType;
+            document.getElementById("eminities").value = eNames.join(", ");
+            document.getElementById("total_amount").value = total;
+
+            return true;
+        }
+
+        function validateForm() {
+            const name = document.getElementById("txtName").value;
+            const adv = document.getElementById("txtNumber").value;
+            let message = "";
+
+            if (!name) message += "Please enter customer name.\n";
+            if (!adv) message += "Please enter advance amount.";
+
+            if (message !== "") {
+                alert(message);
+                return false;
+            }
+
+            return calculateTotal();
+        }
+    </script>
+</head>
+<body>
+<form method="POST" action="register.php" onsubmit="return validateForm();">
+    <font size="5">
+        <table width="1000" border="2" cellspacing="4" cellpadding="4" align="center">
+            <tr>
+                <td colspan="2">
+                    <img src="img/formT.jpg" height="300" width="1000">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2"><h2>Hotel Registration Form</h2></td>
+            </tr>
+            <tr>
+                <td>
+                    <table>
+                        <tr><th>Customer Name <span style="color:red;">*</span></th></tr>
+                        <tr><th>Check-in Date <span style="color:red;">*</span></th></tr>
+                        <tr><th>Total Number of Persons <span style="color:red;">*</span></th></tr>
+                        <tr><th>Total Number of Days <span style="color:red;">*</span></th></tr>
+                    </table>
+                </td>
+                <td>
+                    <table>
+                        <tr><td><input type="text" id="txtName" name="customer_name" placeholder="Enter Customer Name"></td></tr>
+                        <tr><td><input type="date" id="txtDate" name="checkin_date"></td></tr>
+                        <tr><td><input type="number" id="txtPerson" name="total_person" placeholder="Total No. of Persons"></td></tr>
+                        <tr><td><input type="number" id="txtDays" name="total_days" placeholder="Total Number Of Days"></td></tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">Select Your Room</td>
+            </tr>
+             <tr>
+                <td>
+                    <img src="img/z13.jpg"height="100" width="100"><br>
+                    <input type="radio" id="deluxeRoom" value="Deluxe Room"
+                           Name="roomType">Deluxe Room(&#x20B9;2500/-)
+                </td>
+                <td>
+                    <img src="img/z14.jpg" height="100" width="100"><br>
+                    <input type="radio" id="suiteRoom" value="Suite Room"
+                           Name="roomType">Room Type(&#x20B9;4000/-)
+                </td>
+            </tr>
+            
+            <tr>
+                <td colspan="2">Select Amenities</td>
+            </tr>
+            <tr>
+                <td>
+                    <img src="img/f2.jpg" height="100" width="100"><br>
+                    <input type="checkbox" id="lockerRoom" value="Locker Room"
+                           Name="Locker Room">Locker Room(&#x20B9;400/-)
+                </td>
+                <td>
+                    <img src="img/f1.jpg" height="100" width="100"><br>
+                    <input type="checkbox" id="acRoom" value="A/C Room"
+                           Name="Room Type">A/C Room(&#x20B9;500/-)
+                </td>
+            </tr>
+            
+            <tr>
+                <td>Advanced Amount <span style="color:red;">*</span></td>
+                <td><input type="text" id="txtNumber" name="advance_amount" placeholder="Advanced Amount" style="margin-left: -248px;"></td>
+            </tr>
+            <tr>
+                <td colspan="2"><input type="submit" value="Click Here to Register" style="height: 38px;margin-left: 108px;"></td>
+            </tr>
+        </table>
+        
+
+        <!-- Hidden Fields -->
+        <input type="hidden" id="room_type" name="room_type">
+        <input type="hidden" id="eminities" name="eminities[]">
+        <input type="hidden" id="total_amount" name="total_amount">
+    </font>
+</form>
+
+</body>
+</html>
